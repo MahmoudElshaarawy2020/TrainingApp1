@@ -33,9 +33,11 @@ import com.example.trainingapp1.model.Cities
 import com.example.trainingapp1.model.citiesList
 
 @Composable
-fun PopularCitiesScreen(modifier: Modifier = Modifier,
-                        cities: List<Cities>,
-                        navController: NavController){
+fun PopularCitiesScreen(
+    modifier: Modifier = Modifier,
+    cities: List<Cities>,
+    navController: NavController
+) {
     val firstText = Font(R.font.montserrat_variablefont_wght)
     val firstFamily = FontFamily(firstText)
 
@@ -43,55 +45,59 @@ fun PopularCitiesScreen(modifier: Modifier = Modifier,
         Modifier
             .fillMaxSize()
             .background(color = colorResource(id = R.color.mainBackground)),
-        horizontalAlignment = Alignment.CenterHorizontally) {
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Row(
             modifier
                 .fillMaxWidth()
                 .padding(top = 35.dp),
-            horizontalArrangement = Arrangement.Center) {
+            horizontalArrangement = Arrangement.Center
+        ) {
             Image(
                 modifier = modifier
                     .size(width = 130.dp, height = 90.dp),
                 painter = painterResource(id = R.drawable.img_logo),
-                contentDescription = "AppLogo" )
+                contentDescription = "AppLogo"
+            )
         }
         Spacer(modifier = modifier.size(50.dp))
-            LazyColumn(modifier = Modifier
+        LazyColumn(
+            modifier = Modifier
                 .fillMaxSize()
-            ) {
-                item {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 20.dp),
-                        text = stringResource(id = R.string.Popular_Cities),
-                        fontSize = 26.sp,
-                        lineHeight = 31.sp,
-                        fontWeight = FontWeight.W600,
-                        color = colorResource(id = R.color.popularCitiesColor),
-                    )
-                }
+        ) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp),
+                    text = stringResource(id = R.string.Popular_Cities),
+                    fontSize = 26.sp,
+                    lineHeight = 31.sp,
+                    fontWeight = FontWeight.W600,
+                    color = colorResource(id = R.color.popularCitiesColor),
+                )
+            }
 
-                items(citiesList){ city->
-                    CitiesComponents(cities = city, onClick = {
-                        navController.navigate("screen5")
-                    })
-                }
-
+            items(citiesList) { city ->
+                CitiesComponents(cities = city, onClick = {
+                    navController.navigate("screen5/{${city.image}}")
+                })
             }
 
         }
+
     }
-
-
+}
 
 
 @Composable
-fun CitiesComponents(modifier: Modifier = Modifier,
-                     cities:Cities,
-                     onClick : () -> Unit){
+fun CitiesComponents(
+    modifier: Modifier = Modifier,
+    cities: Cities,
+    onClick: () -> Unit
+) {
     Row(modifier
-        .clickable { onClick()  }
+        .clickable { onClick() }
         .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically) {
 
@@ -100,23 +106,27 @@ fun CitiesComponents(modifier: Modifier = Modifier,
             contentDescription = "city1",
             modifier
                 .size(width = 210.dp, height = 177.dp)
-                .padding(start = 14.dp, end = 16.dp))
+                .padding(start = 14.dp, end = 16.dp)
+        )
 
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally) {
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 text = stringResource(id = cities.name!!),
                 fontSize = 17.sp,
                 lineHeight = 20.sp,
                 fontWeight = FontWeight.W600,
-                color = colorResource(id = R.color.popularCitiesColor))
+                color = colorResource(id = R.color.popularCitiesColor)
+            )
 
             Text(
                 text = stringResource(id = cities.review!!),
                 fontSize = 14.sp,
                 lineHeight = 16.sp,
                 fontWeight = FontWeight.W400,
-                color = colorResource(id = R.color.reviewsColor))
+                color = colorResource(id = R.color.reviewsColor)
+            )
         }
 
     }

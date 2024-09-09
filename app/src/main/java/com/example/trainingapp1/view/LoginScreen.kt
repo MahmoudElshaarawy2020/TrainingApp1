@@ -1,10 +1,9 @@
 package com.example.trainingapp1.view
 
 import android.app.Activity
-import android.view.Window
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +27,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,22 +51,29 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.trainingapp1.R
+import com.example.trainingapp1.data.RetrofitInstance
+import com.example.trainingapp1.model.LoginRepository
+import com.example.trainingapp1.model.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier,
-                navController: NavController){
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    loginViewModel: LoginViewModel = LoginViewModel(LoginRepository(RetrofitInstance.api))
+) {
     var phoneNumber by remember { mutableStateOf("") }
     var password1 by remember { mutableStateOf("") }
     var isVisible by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
-
+    val loginState by loginViewModel.loginState.collectAsState()
     Column(
         Modifier
             .fillMaxSize()
             .background(color = colorResource(id = R.color.mainBackground)),
-        horizontalAlignment = Alignment.CenterHorizontally) {
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Row(modifier.fillMaxWidth()) {
 
             IconButton(
@@ -88,13 +93,16 @@ fun LoginScreen(modifier: Modifier = Modifier,
                     .padding(start = 75.dp, top = 35.dp)
                     .size(width = 90.dp, height = 70.dp),
                 painter = painterResource(id = R.drawable.img_logo),
-                contentDescription = "AppLogo" )
+                contentDescription = "AppLogo"
+            )
         }
         Spacer(modifier = modifier.size(32.dp))
 
-        Box(modifier = modifier
-            .fillMaxSize()
-            .padding(start = 27.dp, end = 27.dp)) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(start = 27.dp, end = 27.dp)
+        ) {
             Column {
                 Text(
                     text = stringResource(id = R.string.Login),
@@ -130,7 +138,7 @@ fun LoginScreen(modifier: Modifier = Modifier,
 
                 OutlinedTextField(
                     value = phoneNumber,
-                    onValueChange = {phoneNumber = it},
+                    onValueChange = { phoneNumber = it },
                     modifier = modifier
                         .size(width = 376.dp, height = 56.dp),
                     shape = RoundedCornerShape(15.dp),
@@ -141,18 +149,19 @@ fun LoginScreen(modifier: Modifier = Modifier,
                     ),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Phone),
+                        keyboardType = KeyboardType.Phone
+                    ),
 
-                    placeholder = { Text(
-                        text = stringResource(id = R.string.PhoneNumber),
-                        modifier = modifier
-                            .fillMaxWidth()
-                        ,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W300,
-                        lineHeight = 20.sp,
-                        color = colorResource(id = R.color.grayInfo)
-                    )
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.PhoneNumber),
+                            modifier = modifier
+                                .fillMaxWidth(),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.W300,
+                            lineHeight = 20.sp,
+                            color = colorResource(id = R.color.grayInfo)
+                        )
                     }
                 )
                 Text(
@@ -168,7 +177,7 @@ fun LoginScreen(modifier: Modifier = Modifier,
 
                 OutlinedTextField(
                     value = password1,
-                    onValueChange = {password1 = it},
+                    onValueChange = { password1 = it },
                     modifier = modifier
                         .size(width = 376.dp, height = 56.dp),
                     shape = RoundedCornerShape(15.dp),
@@ -177,16 +186,16 @@ fun LoginScreen(modifier: Modifier = Modifier,
                         unfocusedBorderColor = Color.LightGray,
                         containerColor = Color.White
                     ),
-                    placeholder = { Text(
-                        text = stringResource(id = R.string.password),
-                        modifier = modifier
-                            .fillMaxWidth()
-                        ,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W300,
-                        lineHeight = 20.sp,
-                        color = colorResource(id = R.color.grayInfo)
-                    )
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.password),
+                            modifier = modifier
+                                .fillMaxWidth(),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.W300,
+                            lineHeight = 20.sp,
+                            color = colorResource(id = R.color.grayInfo)
+                        )
                     },
                     singleLine = true,
 
@@ -212,7 +221,7 @@ fun LoginScreen(modifier: Modifier = Modifier,
                         .buttonColors(containerColor = colorResource(id = R.color.blueButton)),
                     shape = RoundedCornerShape(30),
                     onClick = {
-                        navController.navigate("screen4")
+loginViewModel.login(username = phoneNumber,password1)
                     }
                 ) {
                     Text(
@@ -225,12 +234,16 @@ fun LoginScreen(modifier: Modifier = Modifier,
 
                 }
 
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .size(20.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(20.dp)
+                )
 
-                Row(modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center) {
+                Row(
+                    modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Text(
                         modifier = modifier.padding(top = 15.dp),
                         text = stringResource(id = R.string.do_not_have_acc),
@@ -245,8 +258,7 @@ fun LoginScreen(modifier: Modifier = Modifier,
                             .padding(top = 15.dp)
                             .clickable {
                                 navController.navigate("screen2")
-                            }
-                            ,
+                            },
                         text = " ${stringResource(id = R.string.signUp)}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500,
@@ -258,13 +270,19 @@ fun LoginScreen(modifier: Modifier = Modifier,
             }
         }
     }
+    loginState?.let { result ->
+        result.onSuccess { loginResponse ->
+            navController.navigate("screen4")
+        }.onFailure { error ->
+            Toast.makeText(context,"Login failed: ${error.message}",Toast.LENGTH_LONG).show()
+        }
+    }
 }
 
 
 @Composable
 @Preview(showBackground = true)
-
-fun LoginScreenPreview(){
+fun LoginScreenPreview() {
     LoginScreen(navController = rememberNavController())
 }
 
