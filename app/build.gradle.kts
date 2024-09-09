@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id ("kotlin-kapt")  //for Annotation processor
+
 }
 
 android {
@@ -75,6 +77,23 @@ dependencies {
 
     //navigation
     implementation("androidx.navigation:navigation-compose:2.8.0")
+
+    // retrofit
+
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+
+// GSON
+
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+// coroutine
+
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation ("com.squareup.okhttp3:okhttp:3.4.1")
+    implementation ("com.squareup.okhttp3:logging-interceptor:3.4.1")
+
 
 
 }
