@@ -1,4 +1,4 @@
-package com.example.trainingapp1.model
+package com.example.trainingapp1.network.model
 
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes

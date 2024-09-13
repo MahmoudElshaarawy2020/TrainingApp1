@@ -94,6 +94,10 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:3.4.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:3.4.1")
 
+    // Lifecycle
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+
 
 
 }

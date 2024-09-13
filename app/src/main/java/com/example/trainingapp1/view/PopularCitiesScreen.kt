@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.trainingapp1.R
-import com.example.trainingapp1.model.Cities
-import com.example.trainingapp1.model.citiesList
+import com.example.trainingapp1.network.model.Cities
+import com.example.trainingapp1.network.model.citiesList
 
 @Composable
 fun PopularCitiesScreen(

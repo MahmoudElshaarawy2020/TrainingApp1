@@ -13,13 +13,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.trainingapp1.model.citiesList
+import com.example.trainingapp1.network.model.citiesList
 import com.example.trainingapp1.ui.theme.TrainingApp1Theme
 import com.example.trainingapp1.view.CityDetails
 import com.example.trainingapp1.view.LoginScreen
 import com.example.trainingapp1.view.OnBoardingScreen
 import com.example.trainingapp1.view.PopularCitiesScreen
 import com.example.trainingapp1.view.SignUpScreen
+import com.example.trainingapp1.viewmodel.LoginViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TrainingApp1Theme {
                 val navController = rememberNavController()
+                val viewModel = LoginViewModel()
                 NavHost(navController = navController, startDestination = "screen1"){
                     composable("screen1"){
                         OnBoardingScreen(navController = navController)
@@ -38,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("screen3") {
-                        LoginScreen(navController = navController)
+                        LoginScreen(navController = navController, onclickLogin = viewModel::login)
                     }
 
                     composable(
