@@ -1,11 +1,7 @@
-package com.example.trainingapp1.network.model
+package com.example.trainingapp1.network.data.models
 
-import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import com.example.trainingapp1.R
 
 

@@ -8,12 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.example.trainingapp1.network.model.citiesList
+import com.example.trainingapp1.network.data.models.citiesList
 import com.example.trainingapp1.ui.theme.TrainingApp1Theme
 import com.example.trainingapp1.view.CityDetails
 import com.example.trainingapp1.view.LoginScreen
@@ -21,7 +19,9 @@ import com.example.trainingapp1.view.OnBoardingScreen
 import com.example.trainingapp1.view.PopularCitiesScreen
 import com.example.trainingapp1.view.SignUpScreen
 import com.example.trainingapp1.viewmodel.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

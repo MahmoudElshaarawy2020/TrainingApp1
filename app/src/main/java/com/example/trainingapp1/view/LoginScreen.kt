@@ -46,8 +46,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.safe.args.generator.models.Destination
 import com.example.trainingapp1.R
+import com.example.trainingapp1.viewmodel.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +58,7 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
     onclickLogin: (email: String, password: String) -> Unit,
+    viewModel: AuthViewModel = hiltViewModel()
 
     ) {
     var email by remember { mutableStateOf("") }

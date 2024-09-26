@@ -1,8 +1,8 @@
-package com.example.trainingapp1.network.dto
+package com.example.trainingapp1.network.data.remote.request
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginDto(
+data class AuthRequest(
     @SerializedName("email")
     val email: String,
     @SerializedName("password")
