@@ -1,5 +1,6 @@
 package com.example.trainingapp1.network.di
 
+import com.example.trainingapp1.contant.Constant.BASE_URL
 import com.example.trainingapp1.network.data.remote.ApiService
 import com.example.trainingapp1.network.data.repository.UserRepository
 import dagger.Module
@@ -14,8 +15,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
-    const val BASE_URL = "https://android-training.appssquare.com"
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
@@ -29,15 +28,5 @@ object AppModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
-    }
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-object RepositoryModule {
-
-    @Provides
-    fun provideUserRepository(apiService: ApiService): UserRepository {
-        return UserRepository(apiService)
     }
 }
