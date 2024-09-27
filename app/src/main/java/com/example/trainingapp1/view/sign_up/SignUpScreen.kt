@@ -1,9 +1,7 @@
-package com.example.trainingapp1.view
+package com.example.trainingapp1.view.sign_up
 
-import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +27,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,34 +35,38 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.trainingapp1.R
+import com.example.trainingapp1.network.data.remote.request.SignUpRequest
 import com.example.trainingapp1.view.utils.SpannableText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(modifier : Modifier = Modifier,
                  navController: NavController) {
-    var phoneNumber by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var password0 by remember { mutableStateOf("") }
-    var password1 by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var isVisible by remember { mutableStateOf(false) }
+
+    val viewModel: SignUpViewModel = hiltViewModel()
+    val signUpResult by viewModel.signUpResult.collectAsState()
+    val context = LocalContext.current
+
     Column(
         Modifier
             .fillMaxSize()
@@ -129,8 +132,8 @@ fun SignUpScreen(modifier : Modifier = Modifier,
                 )
 
                 OutlinedTextField(
-                    value = phoneNumber,
-                    onValueChange = {phoneNumber = it},
+                    value = name,
+                    onValueChange = {name = it},
                     modifier = modifier
                         .size(width = 376.dp, height = 56.dp),
                     shape = RoundedCornerShape(15.dp),
@@ -204,8 +207,8 @@ fun SignUpScreen(modifier : Modifier = Modifier,
                 )
 
                 OutlinedTextField(
-                    value = password0,
-                    onValueChange = {password0 = it},
+                    value = city,
+                    onValueChange = {city = it},
                     modifier = modifier
                         .size(width = 376.dp, height = 56.dp),
                     shape = RoundedCornerShape(15.dp),
@@ -240,8 +243,8 @@ fun SignUpScreen(modifier : Modifier = Modifier,
                 )
 
                 OutlinedTextField(
-                    value = password1,
-                    onValueChange = {password1 = it},
+                    value = password,
+                    onValueChange = {password = it},
                     modifier = modifier
                         .size(width = 376.dp, height = 56.dp),
                     shape = RoundedCornerShape(15.dp),
@@ -307,7 +310,14 @@ fun SignUpScreen(modifier : Modifier = Modifier,
                         .buttonColors(containerColor = colorResource(id = R.color.blueButton)),
                     shape = RoundedCornerShape(30),
                     onClick = {
-                        navController.navigate("screen3")
+                        viewModel.signUp(
+                            SignUpRequest(
+                                name = name,
+                                city = city,
+                                email = email,
+                                password = password
+                            )
+                        )
                     }
                 ) {
                     Text(

@@ -14,11 +14,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.trainingapp1.network.data.models.citiesList
 import com.example.trainingapp1.ui.theme.TrainingApp1Theme
 import com.example.trainingapp1.view.CityDetails
-import com.example.trainingapp1.view.LoginScreen
+import com.example.trainingapp1.view.login.LoginScreen
 import com.example.trainingapp1.view.OnBoardingScreen
 import com.example.trainingapp1.view.PopularCitiesScreen
-import com.example.trainingapp1.view.SignUpScreen
-import com.example.trainingapp1.viewmodel.LoginViewModel
+import com.example.trainingapp1.view.sign_up.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +28,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             TrainingApp1Theme {
                 val navController = rememberNavController()
-                val viewModel = LoginViewModel()
                 NavHost(navController = navController, startDestination = "screen1"){
                     composable("screen1"){
                         OnBoardingScreen(navController = navController)
@@ -40,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("screen3") {
-                        LoginScreen(navController = navController, onclickLogin = viewModel::login)
+                        LoginScreen(navController = navController)
                     }
 
                     composable(
