@@ -52,8 +52,19 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
+configurations.all {
+    exclude(group = "xmlpull", module = "xmlpull")
+    exclude(group = "xpp3", module = "xpp3_min")
+}
+
+
 dependencies {
 
+    // AndroidX Libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -68,6 +79,8 @@ dependencies {
     implementation(libs.androidx.navigation.safe.args.generator)
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.androidx.room.ktx)
+
+    // Testing Libraries
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,38 +88,33 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    //navigation
+
+    // Navigation
     implementation(libs.androidx.navigation.compose)
-    //changing status bar
-    implementation ("androidx.compose.ui:ui-tooling:1.1.1")
-    implementation ("androidx.compose.ui:ui:1.1.1")
 
-    //navigation
-    implementation("androidx.navigation:navigation-compose:2.8.0")
+    // UI Tooling
+    implementation("androidx.compose.ui:ui-tooling:1.1.1")
 
-    // retrofit
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    // Coroutines (Upgraded)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
-// GSON
+    // OkHttp Logging
+    implementation("com.squareup.okhttp3:logging-interceptor:3.4.1")
 
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    // Lifecycle Libraries (Unified Version)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.2")
 
-// coroutine
-
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
-
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation ("com.squareup.okhttp3:okhttp:3.4.1")
-    implementation ("com.squareup.okhttp3:logging-interceptor:3.4.1")
-
-    // Lifecycle
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
-
-    //Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-compiler:2.49")
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.52")
+    kapt("com.google.dagger:hilt-compiler:2.52")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
 

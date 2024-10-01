@@ -1,9 +1,8 @@
-package com.example.trainingapp1.network.di
+package com.example.trainingapp1.myapp
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class AuthApplication : Application(){
-
+class MyApplication : Application() {
 }

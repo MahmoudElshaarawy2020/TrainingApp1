@@ -1,5 +1,6 @@
-package com.example.trainingapp1.contant
+package com.example.data.utils
 
-object Constant {
+object Constants {
+
     const val BASE_URL = "https://android-training.appssquare.com"
 }

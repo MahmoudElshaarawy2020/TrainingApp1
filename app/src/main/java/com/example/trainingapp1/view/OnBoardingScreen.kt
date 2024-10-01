@@ -93,7 +93,7 @@ fun OnBoardingScreen(
                     .buttonColors(containerColor = colorResource(id = R.color.blueButton)),
                 shape = RoundedCornerShape(16),
                 onClick = {
-                    navController.navigate("screen2")
+                    navController.navigate("screen3")
                 }
             ) {
                 Text(

@@ -1,6 +1,7 @@
 package com.example.trainingapp1.view.login
 
 import android.app.Activity
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,8 +27,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,23 +52,23 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.trainingapp1.R
-import com.example.trainingapp1.network.data.remote.request.LoginRequest
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
+    loginViewModel: LoginViewModel = hiltViewModel()
     ) {
-
-    val viewModel : LoginViewModel = hiltViewModel()
-    val loginResult by viewModel.loginResult.collectAsState()
+    val message = loginViewModel.message.observeAsState()
     val context = LocalContext.current
 
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isVisible by remember { mutableStateOf(false) }
+
 
 
 
@@ -222,7 +225,8 @@ fun LoginScreen(
                         .buttonColors(containerColor = colorResource(id = R.color.blueButton)),
                     shape = RoundedCornerShape(30),
                     onClick = {
-                        viewModel.login(LoginRequest(email = email, password = password))
+                       loginViewModel.login(email = email,password =password)
+                        Toast.makeText(context, "name $message", Toast.LENGTH_LONG).show()
                     }
                 ) {
                     Text(
