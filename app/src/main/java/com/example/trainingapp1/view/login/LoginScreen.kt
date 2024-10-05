@@ -1,6 +1,7 @@
 package com.example.trainingapp1.view.login
 
 import android.app.Activity
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -52,6 +53,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.trainingapp1.R
+import com.example.trainingapp1.utils.MessageError
+import com.route.e_commerce_compose.views.ErrorDialog
+import com.route.e_commerce_compose.views.LoadingDialog
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,6 +66,8 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
     ) {
     val message = loginViewModel.message.observeAsState()
+    val loading by loginViewModel.loading.collectAsState()
+    val error = loginViewModel.errorMessage.observeAsState(MessageError(message = ""))
     val context = LocalContext.current
 
 
@@ -69,7 +75,23 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var isVisible by remember { mutableStateOf(false) }
 
+    Log.e("TAG", "Lodaing 1: $loading", )
 
+
+//    if ((error.value.message)!!.isNotEmpty()){
+//        ErrorDialog(
+//            title = error.value!!.title,
+//            message = error.value!!.message!!,
+//            showDialog = true,
+//            onRetry = {
+//
+//            },
+//            onDismiss = {
+//
+//            }
+//        )
+//
+//    }
 
 
     Column(
@@ -226,7 +248,7 @@ fun LoginScreen(
                     shape = RoundedCornerShape(30),
                     onClick = {
                        loginViewModel.login(email = email,password =password)
-                        Toast.makeText(context, "name $message", Toast.LENGTH_LONG).show()
+                        Log.e("TAG", "Lodaing 2: $loading", )
                     }
                 ) {
                     Text(
@@ -274,6 +296,9 @@ fun LoginScreen(
                 }
             }
         }
+    }
+    if (loading){
+        LoadingDialog()
     }
 }
 

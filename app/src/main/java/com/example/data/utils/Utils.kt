@@ -1,6 +1,7 @@
 package com.example.data.utils
 
 import com.example.data.models.auth.AuthResponse
+import com.example.data.models.restaurant.RestaurantResponse
 import com.example.domain.common.InternetConnection
 import com.example.domain.common.Resource
 import com.example.domain.common.ServerError
@@ -20,6 +21,28 @@ suspend fun <T> safeApiAuth(apiCall: suspend () -> T): T {
         if (ex.code() in 400..600) {
             val serverMessage = ex.response()?.errorBody()?.string()
             val serverCode = Gson().fromJson(serverMessage, AuthResponse::class.java)
+            throw ServerError(serverMessage, serverCode.status, ex)
+        }
+        throw ex
+    } catch (ex: IOException) {
+        throw InternetConnection(ex)
+    } catch (ex: Exception) {
+        throw ex
+    }
+}
+
+suspend fun <T> safeApi(apiCall: suspend () -> T): T {
+
+    try {
+        val response = apiCall.invoke()
+        return response
+    } catch (ex: HttpException) {
+        if (ex.code() in 400..600) {
+            val serverMessage = ex.response()?.errorBody()?.string()
+            val serverCode = Gson().fromJson<RestaurantResponse<Any>>(
+                serverMessage,
+                RestaurantResponse::class.java
+            )
             throw ServerError(serverMessage, serverCode.status, ex)
         }
         throw ex
